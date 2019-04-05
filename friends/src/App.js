@@ -11,8 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: [],
-      newFriend: [{ name: "", age: "", email: "" }]
+      friends: []
     };
   }
 
@@ -25,36 +24,31 @@ class App extends Component {
       .catch((err) => console.log(err));
   }
 
-  onChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
+  updatedFriendsArray = (friends) => {
+    this.setState({ friends });
   };
 
-  addNewFriend = () => {
-    let newFriendAdded = {
-      name: this.state.name,
-      age: this.state.age,
-      email: this.state.email
-    };
+  // deleteFriendButton = (id) => {
+  //   //let id = event.target.id;
+  //   //const friends = this.state.friends.find((friend) => friend.id === id);
 
-    axios
-      .post("http://localhost:5000/friends", newFriendAdded)
-      .then((response) => {
-        this.setState({ friends: response.data });
-      })
-      .catch((err) => console.log(err));
-  };
+  //   axios
+  //     .delete(`http://localhost:5000/friends/${id}`)
+  //     .then((response) => {
+  //       this.setState({ friends: response.data });
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
 
   render() {
     return (
       <div>
-        <FriendsForm
-          onChange={this.onChange}
-          addNewFriend={this.addNewFriend}
-          name={this.state.newFriend.name}
-          age={this.state.newFriend.age}
-          email={this.state.newFriend.email}
+        <FriendsForm updatedFriendsArray={this.updatedFriendsArray} />
+        <FriendsList
+          friends={this.state.friends}
+          //deleteFriendButton={this.deleteFriendButton}
+          updatedFriendsArray={this.updatedFriendsArray} 
         />
-        <FriendsList friends={this.state.friends} />
       </div>
     );
   }

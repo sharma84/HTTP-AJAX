@@ -6,7 +6,7 @@ const FriendsList = (props) => {
     <div>
       {props.friends.map((friend) => (
         <div key={friend.id}>
-          <Friends friend={friend} />
+          <Friends friend={friend} deleteFriendButton={props.deleteFriendButton}/>
         </div>
       ))}
     </div>
