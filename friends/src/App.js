@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./App.css";
-import ReactDOM from "react-dom";
 
 import FriendsList from "./Components/FriendsList";
 import FriendsForm from "./Components/FriendsForm";
@@ -11,9 +10,16 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      friends: []
+      friends: [],
+      name: "",
+      age: "",
+      email: "" //placeholder for new friends added
     };
   }
+
+  updateFriends = (newFriendsList) => {
+    this.setState({ friends: newFriendsList });
+  };
 
   componentDidMount() {
     axios
@@ -24,30 +30,38 @@ class App extends Component {
       .catch((err) => console.log(err));
   }
 
-  updatedFriendsArray = (friends) => {
-    this.setState({ friends });
+  onChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
   };
 
-  // deleteFriendButton = (id) => {
-  //   //let id = event.target.id;
-  //   //const friends = this.state.friends.find((friend) => friend.id === id);
+  addNewFriend = () => {
+    let newFriendAdded = {
+      name: this.state.name,
+      age: this.state.age,
+      email: this.state.email
+    };
 
-  //   axios
-  //     .delete(`http://localhost:5000/friends/${id}`)
-  //     .then((response) => {
-  //       this.setState({ friends: response.data });
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+    axios
+      .post("http://localhost:5000/friends", newFriendAdded)
+      .then((response) => {
+        this.updateFriends(response.data);
+      })
+      .catch((err) => console.log(err));
+  };
 
   render() {
     return (
       <div>
-        <FriendsForm updatedFriendsArray={this.updatedFriendsArray} />
+        <FriendsForm
+          onChange={this.onChange}
+          addNewFriend={this.addNewFriend}
+          name={this.state.name}
+          age={this.state.age}
+          email={this.state.email}
+        />
         <FriendsList
           friends={this.state.friends}
-          //deleteFriendButton={this.deleteFriendButton}
-          updatedFriendsArray={this.updatedFriendsArray} 
+          updateFriends={this.updateFriends}
         />
       </div>
     );
