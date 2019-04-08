@@ -1,0 +1,23 @@
+.App {
+  text-align: center;
+}
+.name-list {
+  display: flex;
+  flex-direction: row;
+}
+.individual-list {
+  padding: 20px;
+  margin-left: 2px;
+}
+.delete {
+  margin-left: 10px;
+}
+input {
+  padding: 10px;
+  width: 250px;
+  margin: 50px 20px;
+}
+button {
+  margin-left: 10px;
+}
+
